@@ -4,4 +4,4 @@ data/
 checkpoints/
 detector_models/
 saved_models/
-%out/
+#out/
