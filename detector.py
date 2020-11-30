@@ -46,6 +46,7 @@ def order_points(pts):
 
 def main():
     # Initializing network
+    #使用GPU
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
     detector_graph = tf.Graph()
