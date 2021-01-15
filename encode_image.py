@@ -8,8 +8,12 @@ import tensorflow.contrib.image
 from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model import signature_constants
 
-BCH_POLYNOMIAL = 137
-BCH_BITS = 5
+# BCH_POLYNOMIAL = 137
+# BCH_BITS = 5
+
+BCH_POLYNOMIAL = 0x409
+BCH_BITS = 10
+ENCODE_BYTE = 11
 
 def main():
     import argparse
@@ -48,17 +52,17 @@ def main():
 
     bch = bchlib.BCH(BCH_POLYNOMIAL, BCH_BITS)
 
-    if len(args.secret) > 7:
-        print('Error: Can only encode 56bits (7 characters) with ECC')
+    if len(args.secret) > ENCODE_BYTE:
+        print('Error: Can only encode ENCODE_BYTE bytes (ENCODE_BYTE characters) with ECC')
         return
 
-    data = bytearray(args.secret + ' '*(7-len(args.secret)), 'utf-8')
+    data = bytearray(args.secret + ' '*(ENCODE_BYTE-len(args.secret)), 'utf-8')
     ecc = bch.encode(data)
     packet = data + ecc
 
     packet_binary = ''.join(format(x, '08b') for x in packet)
     secret = [int(x) for x in packet_binary]
-    secret.extend([0,0,0,0])
+    secret.extend([0,0,0,0,0,0,0,0])
 
     if args.save_dir is not None:
         if not os.path.exists(args.save_dir):
