@@ -159,7 +159,9 @@ def transform_net(encoded_image, args, global_step):
     encoded_image = tf.reshape(encoded_image, [-1,400,400,3])
     if not args.no_jpeg:
         encoded_image = utils.jpeg_compress_decompress(encoded_image, rounding=utils.round_only_at_0, factor=jpeg_factor, downsample_c=True)
-
+    ## 二值化 模拟打印黑白图像
+    encoded_image = tf.image.rgb_to_grayscale(encoded_image)
+    encoded_image = tf.image.grayscale_to_rgb(encoded_image)
     summaries = [tf.summary.scalar('transformer/rnd_bri', rnd_bri),
                  tf.summary.scalar('transformer/rnd_sat', rnd_sat),
                  tf.summary.scalar('transformer/rnd_hue', rnd_hue),

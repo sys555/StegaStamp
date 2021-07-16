@@ -8,7 +8,7 @@ import utils
 import models
 from os.path import join
 
-TRAIN_PATH = './data/'
+TRAIN_PATH = '/Users/banana/Documents/dataset/MIRFLICKR/images'
 LOGS_Path = "./logs/"
 CHECKPOINTS_PATH = './checkpoints/'
 SAVED_MODELS = './saved_models'
